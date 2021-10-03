@@ -267,16 +267,17 @@ def detect_objects(input_bev_maps, model, configs):
             x = bev_y / configs.bev_height * (configs.lim_x[1] - configs.lim_x[0])
             y = bev_x / configs.bev_width * (configs.lim_y[1] - configs.lim_y[0]) - (
                         configs.lim_y[1] - configs.lim_y[0]) / 2.0
-            w = bev_w / configs.bev_width * (configs.lim_x[1] - configs.lim_x[0])
-            l = bev_l / configs.bev_height * (configs.lim_y[1] - configs.lim_y[0])
+            w = bev_w / configs.bev_width * (configs.lim_y[1] - configs.lim_y[0])
+            l = bev_l / configs.bev_height * (configs.lim_x[1] - configs.lim_x[0])
             yaw = -bev_yaw
             h = bev_h
             z = bev_z + configs.lim_z[0]
 
             ## step 3 : perform the conversion using the limits for x, y and z set in the configs structure
+            if x > configs.lim_x[1] or x < configs.lim_x[0] or y > configs.lim_y[1] or y < configs.lim_y[0] or z > configs.lim_z[1] or z < configs.lim_z[0]:
+                continue
 
-
-            detected_obj = [1,x, y, z, h, l, w, yaw]
+            detected_obj = [1,x, y, z, h, w, l, yaw]
             #detected_obj = [0,0,0,0,0,0,0]
             #print(detected_obj)
             #print("-----------")
